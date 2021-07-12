@@ -1,9 +1,6 @@
-clc
-clear all
+clc; clear all;
 
 %Resolvendo um sistema linear da forma Av+B
-
-% Equação dada por
 % y''(x) + a*y(x)' b*y(x) = f(x)
 
 % Domínio
@@ -19,11 +16,11 @@ N=120; deltx=L/N; dx=deltx^2;
 n=N-1;
 %Costrução da Matriz A
 for i=1:n
-  A(i,i) = 2 + b*dx;
+  A(i,i) = -2 + b*dx;
 end
 for i=1:n-1
-  A(i,i+1) = -1 + ((a*deltx)/2); %Diagonal Superior
-  A(i+1,i) = -1 - ((a*deltx)/2); %Diagonal Inferior
+  A(i,i+1) = 1 + ((a*deltx)/2); %Diagonal Superior
+  A(i+1,i) = 1 - ((a*deltx)/2); %Diagonal Inferior
 end
 
 %condições de contorno
@@ -35,22 +32,22 @@ time = deltx;
 pos = 1;
 while true
     B(end + 1) = -dx*f(time);
-    if pos == n
+    if pos == n;
         break
     end
-    time = time + deltx
-    pos = pos+1
+    time = time + deltx;
+    pos = pos+1;
 end
-B(1)= B(1) - (yi*(-1 - ((a*deltx)/2)));
-B(5)= B(5) - (yf*(-1 + ((a*deltx)/2)));
-B = B'
+B(1)= B(1) - (yi*(1 - ((a*deltx)/2)));
+B(end)= B(end) - (yf*(1 + ((a*deltx)/2)));
+B = B';
 
 % Resolução do sistema
 y = A\B;
 
 %gráfico
 x=[0:deltx:L];
-varal=-[0 ; y; 0];
+varal=-[yi ; y; yf];
 plot(x,varal,'r');
 grid;
 xlabel('t');
